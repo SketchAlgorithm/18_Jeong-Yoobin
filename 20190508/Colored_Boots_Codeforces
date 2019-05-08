@@ -1,0 +1,148 @@
+package _190508;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.*;
+
+public class Colored_Boots_Codeforces {
+
+	public static void main(String[] args) {
+
+		FastScanner sc = new FastScanner();
+		int n = sc.nextInt();
+		char[] left = sc.next().toCharArray();
+		char[] right = sc.next().toCharArray();
+
+		ArrayList<Stack<Integer>> leftstacklist = new ArrayList<Stack<Integer>>();
+		ArrayList<Stack<Integer>> rightstacklist = new ArrayList<Stack<Integer>>();
+		for (int i = 0; i < 'z' - 'a' + 2; i++) {
+			leftstacklist.add(new Stack<Integer>());
+			rightstacklist.add(new Stack<Integer>());
+		}
+
+		for (int i = 0; i < left.length; i++) {
+			if (left[i] == '?') {
+				leftstacklist.get(leftstacklist.size() - 1).push(i);
+				break;
+			}
+			for (int j = 0; j < leftstacklist.size() - 1; j++) {
+				if (left[i] == 'a' + j)
+					leftstacklist.get(j).push(i);
+			}
+		}
+		for (int i = 0; i < right.length; i++) {
+			if (right[i] == '?') {
+				rightstacklist.get(rightstacklist.size() - 1).push(i);
+				break;
+			}
+			for (int j = 0; j < rightstacklist.size() - 1; j++) {
+				if (right[i] == 'a' + j)
+					rightstacklist.get(j).push(i);
+			}
+		}
+
+		ArrayList<Point> result = new ArrayList<Point>();
+
+		for (int i = 0; i < leftstacklist.size() - 1; i++) { // 일반적
+			if (leftstacklist.get(i).size() > 0 && rightstacklist.get(i).size() > 0) {
+				int temp = Math.min(leftstacklist.get(i).size(), rightstacklist.get(i).size());
+				for (int j = 0; j < temp; j++)
+					result.add(new Point(leftstacklist.get(i).pop(), rightstacklist.get(i).pop()));
+			}
+		}
+		for (int i = 0; i < leftstacklist.get(leftstacklist.size() - 1).size(); i++) { // 물음표와 문자
+			for (int j = 0; j < rightstacklist.size(); j++) {
+				if (rightstacklist.get(j).size() > 0)
+					for (int k = 0; k < rightstacklist.get(j).size(); k++) 
+						result.add(new Point(leftstacklist.get(leftstacklist.size() - 1).pop(),
+								rightstacklist.get(j).pop()));
+					
+				if(leftstacklist.get(leftstacklist.size()-1).size() ==0 )
+					break;
+			}
+		}
+
+		for (int i = 0; i < rightstacklist.get(rightstacklist.size() - 1).size(); i++) {
+			for (int j = 0; j < leftstacklist.size(); j++) {
+				if (leftstacklist.get(j).size() > 0)
+					for (int k = 0; k < leftstacklist.get(j).size(); k++)
+						result.add(new Point(rightstacklist.get(rightstacklist.size() - 1).pop(),
+								leftstacklist.get(j).pop()));
+				if(rightstacklist.get(rightstacklist.size()-1).size() ==0 )
+					break;
+			}
+		}
+
+		// 물음표와 물음표
+		if (rightstacklist.get(rightstacklist.size() - 1).size() > 0
+				&& leftstacklist.get(leftstacklist.size() - 1).size() > 0) {
+			int temp = Math.min(rightstacklist.get(rightstacklist.size() - 1).size(),
+					leftstacklist.get(leftstacklist.size() - 1).size());
+			for (int i = 0; i < temp; i++)
+				result.add(new Point(rightstacklist.get(rightstacklist.size() - 1).pop(),
+						leftstacklist.get(leftstacklist.size() - 1).pop()));
+		}
+
+		System.out.println(result.size());
+		for (int i = 0; i < result.size(); i++) {
+			System.out.println(result.get(i));
+		}
+
+	}
+
+	static class Point {
+		public int x;
+		public int y;
+
+		public Point(int x, int y) {
+			this.x = x;
+			this.y = y;
+		}
+
+		@Override
+		public String toString() {
+			// TODO Auto-generated method stub
+			return (x + 1) + " " + (y + 1);
+		}
+	}
+
+	static class FastScanner {
+		BufferedReader in;
+		StringTokenizer st;
+		String temp;
+
+		public FastScanner() {
+			in = new BufferedReader(new InputStreamReader(System.in));
+			temp = "";
+		}
+
+		public String next() {
+			while (st == null || !st.hasMoreTokens()) {
+				try {
+					String temp = in.readLine();
+					if (temp == null)
+						return null;
+					st = new StringTokenizer(temp);
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+			return st.nextToken();
+		}
+
+		public int nextInt() {
+			return Integer.parseInt(next());
+		}
+
+		public char nextChar() {
+			if (temp.equals("")) {
+				temp = next();
+			}
+			char _temp = temp.charAt(0);
+			temp = temp.substring(1);
+			return _temp;
+
+		}
+	}
+}
