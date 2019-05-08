@@ -24,7 +24,7 @@ public class Colored_Boots_Codeforces {
 		for (int i = 0; i < left.length; i++) {
 			if (left[i] == '?') {
 				leftstacklist.get(leftstacklist.size() - 1).push(i);
-				break;
+				continue;
 			}
 			for (int j = 0; j < leftstacklist.size() - 1; j++) {
 				if (left[i] == 'a' + j)
@@ -34,7 +34,7 @@ public class Colored_Boots_Codeforces {
 		for (int i = 0; i < right.length; i++) {
 			if (right[i] == '?') {
 				rightstacklist.get(rightstacklist.size() - 1).push(i);
-				break;
+				continue;
 			}
 			for (int j = 0; j < rightstacklist.size() - 1; j++) {
 				if (right[i] == 'a' + j)
@@ -54,7 +54,7 @@ public class Colored_Boots_Codeforces {
 		for (int i = 0; i < leftstacklist.get(leftstacklist.size() - 1).size(); i++) { // 물음표와 문자
 			for (int j = 0; j < rightstacklist.size(); j++) {
 				if (rightstacklist.get(j).size() > 0)
-					for (int k = 0; k < rightstacklist.get(j).size(); k++) 
+					while(rightstacklist.size() > 0)
 						result.add(new Point(leftstacklist.get(leftstacklist.size() - 1).pop(),
 								rightstacklist.get(j).pop()));
 					
@@ -66,7 +66,7 @@ public class Colored_Boots_Codeforces {
 		for (int i = 0; i < rightstacklist.get(rightstacklist.size() - 1).size(); i++) {
 			for (int j = 0; j < leftstacklist.size(); j++) {
 				if (leftstacklist.get(j).size() > 0)
-					for (int k = 0; k < leftstacklist.get(j).size(); k++)
+					while(leftstacklist.get(j).size() > 0)
 						result.add(new Point(rightstacklist.get(rightstacklist.size() - 1).pop(),
 								leftstacklist.get(j).pop()));
 				if(rightstacklist.get(rightstacklist.size()-1).size() ==0 )
