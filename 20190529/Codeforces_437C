@@ -1,0 +1,88 @@
+package _190529;
+
+import java.io.*;
+import java.util.*;
+
+public class Codeforces_437C {
+
+	public static void main(String[] args) {
+		FastScanner sc = new FastScanner();
+
+		int n = sc.nextInt();
+		int m = sc.nextInt();
+		int energysum = 0;
+		int[] energy = new int[n];
+		int[][] matrix = new int[n][n];
+
+		for (int i = 0; i < n; i++) {
+			energy[i] = sc.nextInt();
+			for (int j = 0; j < n; j++)
+				matrix[i][j] = 0;
+		}
+		for (int i = 0; i < m; i++) {
+			int a = sc.nextInt()-1;
+			int b = sc.nextInt()-1;
+			matrix[a][b] = 1;
+			matrix[b][a] = 1;
+		}
+
+		for (int j = 0; j < n; j++) {
+			int maxindex = 0;
+			for (int i = 1; i < n; i++)
+				if (energy[maxindex] < energy[i])
+					maxindex = i;
+
+			for (int i = 0; i < n; i++)
+				if (matrix[i][maxindex] == 1) {
+					energysum += energy[i];
+
+					matrix[i][maxindex] = 0;
+					matrix[maxindex][i] = 0;
+
+				}
+			energy[maxindex] = 0;
+		}
+
+		
+		System.out.println(energysum);
+	}
+
+	static class FastScanner {
+		BufferedReader in;
+		StringTokenizer st;
+		String temp;
+
+		public FastScanner() {
+			in = new BufferedReader(new InputStreamReader(System.in));
+			temp = "";
+		}
+
+		public String next() {
+			while (st == null || !st.hasMoreTokens()) {
+				try {
+					String temp = in.readLine();
+					if (temp == null)
+						return null;
+					st = new StringTokenizer(temp);
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+			return st.nextToken();
+		}
+
+		public int nextInt() {
+			return Integer.parseInt(next());
+		}
+
+		public char nextChar() {
+			if (temp.equals("")) {
+				temp = next();
+			}
+			char _temp = temp.charAt(0);
+			temp = temp.substring(1);
+			return _temp;
+
+		}
+	}
+}
